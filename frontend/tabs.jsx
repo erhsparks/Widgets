@@ -1,23 +1,9 @@
 import React from 'react';
 
 export default class Tabs extends React.Component {
-  // props here is { title: "title", content: "content" }
   constructor(props) {
     super(props);
     this.state = { selectedTabIdx: 0 };
-  }
-
-  getTabTitles(tabs, selectedIdx) {
-    return tabs.map((el, i) => {
-      let elTitle = el.title;
-
-      let selectOnOff = "tab-not-selected-title";
-      if (i === selectedIdx) selectOnOff = "tab-selected-title";
-
-      return <h1 key={i}
-                 onClick={this.selectTab.bind(this, i)}
-                 className={selectOnOff}>{elTitle}</h1>;
-    });
   }
 
   selectTab(i) {
@@ -26,16 +12,16 @@ export default class Tabs extends React.Component {
 
   render() {
     let { tabs } = this.props;
-    let { selectedIdx } = this.state;
+    let { selectedTabIdx } = this.state;
 
-    let selectedTabContent = tabs[selectedIdx].content;
-    let tabTitles = this.getTabTitles(tabs, selectedIdx);
+    let selectedTabContent = tabs[selectedTabIdx].content;
 
     return (
       <div className="tabs">
-        <ul>
-          <div className="tab-titles">{tabTitles}</div>
-        </ul>
+        <TabTitles tabs={tabs}
+                   selectedTabIdx={selectedTabIdx}
+                   selectTab={this.selectTab.bind(this)}>
+        </TabTitles>
 
         <div className="tab-current-contents">
           <article>{selectedTabContent}</article>
@@ -44,3 +30,18 @@ export default class Tabs extends React.Component {
     );
   }
 }
+
+const TabTitles = ({ tabs, selectedTabIdx, selectTab }) => (
+  <div className="tab-titles">
+    {tabs.map((el, i) => {
+      let elTitle = el.title;
+
+      let selectOnOff = "tab-not-selected-title";
+      if (i === selectedTabIdx) selectOnOff = "tab-selected-title";
+
+      return <h1 key={i}
+                 onClick={selectTab.bind(null, i)}
+                 className={selectOnOff}>{elTitle}</h1>;
+    })}
+  </div>
+);
