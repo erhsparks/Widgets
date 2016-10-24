@@ -25,8 +25,8 @@ export default class Tabs extends React.Component {
   }
 
   render() {
-    let tabs = this.props.tabs;
-    let selectedIdx = this.state.selectedTabIdx;
+    let { tabs } = this.props;
+    let { selectedIdx } = this.state;
 
     let selectedTabContent = tabs[selectedIdx].content;
     let tabTitles = this.getTabTitles(tabs, selectedIdx);
